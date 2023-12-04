@@ -5,6 +5,7 @@ export async function getUsers() {
     const users = await sql`SELECT * FROM user_table`
     return users
   } catch (err) {
+    console.log(err.message)
     throw new Error('Error al obtener a los usuarios.')
   }
 }
