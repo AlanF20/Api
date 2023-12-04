@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getUsers, postUser } from './user.services.js'
+import { deleteUser, editUser, getUsers, postUser } from './user.services.js'
 
 const usersRouter = Router()
 
@@ -15,10 +15,28 @@ usersRouter
     try {
       const userInfo = req.body
       await postUser(userInfo)
-      res.json({ message: 'Usuario creado exitosamente' }).status(201)
+      res.json({ message: 'Usuario creado exitosamente.' }).status(201)
     } catch (err) {
       res.json({ error: err.message }).status(400)
     }
   })
-
+  .put('/:id', async (req, res) => {
+    try {
+      const { id } = req.params
+      const userInfo = req.body
+      await editUser(id, userInfo)
+      res.json({ message: 'Usuario editado exitosamente.' }).status(200)
+    } catch (err) {
+      res.json({ error: err.message }).status(400)
+    }
+  })
+  .delete('/:id', async (req, res) => {
+    try {
+      const { id } = req.params
+      await deleteUser(id)
+      res.json({ message: 'Usuario eliminado exitosamente.' }).status(200)
+    } catch (err) {
+      res.json({ error: err.message }).status(400)
+    }
+  })
 export default usersRouter
